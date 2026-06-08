@@ -1,0 +1,146 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bit - Unified Multi-Modal Engine</title>
+    
+    <meta name="description" content="Bit - The ultimate public multi-modal AI engine workspace platform developed by Abhyuday Sharma. Access text generation, vision matrix mapping, image processing, and voice chat tracking.">
+    <meta name="keywords" content="bit, bit ai, bit chatbot, bit website, abhyuday sharma bit, b bot">
+    <meta name="author" content="Abhyuday Sharma">
+
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet"></head><body>
+
+    <div class="atom-watermark">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="4" class="atom-nucleus" />
+            <ellipse cx="50" cy="50" rx="40" ry="14" class="atom-orbit orbit-1" />
+            <ellipse cx="50" cy="50" rx="40" ry="14" class="atom-orbit orbit-2" />
+            <ellipse cx="50" cy="50" rx="40" ry="14" class="atom-orbit orbit-3" />
+            <ellipse cx="50" cy="50" rx="40" ry="14" class="atom-orbit orbit-4" />
+        </svg>
+    </div>
+
+    <div id="auth-screen" class="screen active">
+        <div class="auth-container">
+            <h1 class="glitch-text">BIT</h1>
+            <p class="subtitle">Unified AI Workspace Engine</p>
+            
+            <div class="tabs">
+                <button type="button" id="tab-signup" class="tab-btn active" onclick="switchAuthMode('signup')">Sign Up</button>
+                <button type="button" id="tab-login" class="tab-btn" onclick="switchAuthMode('login')">Login</button>
+            </div>
+
+            <div class="input-group">
+                <input type="email" id="auth-email" required placeholder="Email Address">
+            </div>
+            <div class="input-group">
+                <input type="password" id="auth-password" required placeholder="Access Crypt">
+            </div>
+            
+            <button type="button" id="auth-submit-btn" class="glow-btn" onclick="executeAuthAction()">Register Identity</button>
+            
+            <div class="credits">Developed by Abhyuday Sharma</div>
+        </div>
+    </div>
+
+    <div id="app-screen" class="screen">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="app-branding">
+                    <span class="logo-b">B</span>
+                    <h2>BIT // OS</h2>
+                </div>
+                <button class="gear-btn" onclick="toggleSettingsModal()" title="System Configuration">⚙️</button>
+            </div>
+
+            <div class="engine-selector-panel">
+                <h3>ROUTING BACKPLANE</h3>
+                <select id="active-llm-engine" onchange="handleEngineChange()">
+                    <option value="auto">⚡ Auto-Route (Keys / Backup)</option>
+                    <option value="backup">🌐 Built-in Free Backup Core</option>
+                    <option value="gemini">Google Gemini</option>
+                    <option value="chatgpt">OpenAI ChatGPT</option>
+                    <option value="deepseek">DeepSeek Core</option>
+                    <option value="claude">Anthropic Claude</option>
+                    <option value="groq">Groq Core</option>
+                    <option value="openrouter">OpenRouter Engine</option>
+                </select>
+            </div>
+
+            <div class="mode-selector">
+                <h3>MODAL OPERATORS</h3>
+                <button id="btn-chat" class="mode-btn active" onclick="setTab('chat')">Standard Chatbot</button>
+                <button id="btn-vision" class="mode-btn" onclick="setTab('vision')">Image Recognition</button>
+                <button id="btn-voice" class="mode-btn" onclick="setTab('voice')">Voice Interaction</button>
+                <button id="btn-image-gen" class="mode-btn" onclick="setTab('image-gen')">Image Generator</button>
+            </div>
+            
+            <div class="sidebar-footer">Dev: Abhyuday Sharma</div>
+        </aside>
+
+        <main class="chat-container">
+            <div class="chat-header">
+                <span id="current-mode-title">STANDARD CHATBOT CHANNELS ACTIVE</span>
+                <span id="active-keys-counter" class="keys-badge">Keys Loaded: 0/6</span>
+                <span class="status-pulse"></span>
+            </div>
+            
+            <div class="chat-messages" id="chat-box">
+                <div class="message ai-msg">
+                    <div class="bubble">System Bit operational. Universal public engine is active. If you don't enter any API keys, Bit automatically runs using our integrated Free Backup Matrix Core!</div>
+                </div>
+            </div>
+
+            <div id="media-preview-area" class="preview-panel hidden"></div>
+
+            <div class="chat-input-area">
+                <button id="voice-trigger-btn" class="icon-input-btn hidden" onclick="toggleVoiceListening()" title="Initialize Microphone">🎙️</button>
+                
+                <label id="vision-trigger-btn" for="image-file-loader" class="icon-input-btn hidden" title="Upload Media Payload">📷</label>
+                <input type="file" id="image-file-loader" accept="image/*" onchange="processVisionFile(event)" style="display:none;" />
+                
+                <textarea id="user-input" placeholder="Transmit execution parameters down to Bit framework layer..."></textarea>
+                <button id="send-btn" onclick="executeBitEngine()">TRANSMIT</button>
+            </div>
+        </main>
+    </div>
+
+    <div id="settings-modal" class="modal-backdrop hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>MATRIX TERMINAL CONFIGURATION</h3>
+                <button class="close-modal-btn" onclick="toggleSettingsModal()">✕</button>
+            </div>
+
+            <div class="modal-scroll-area">
+                <div class="settings-section">
+                    <h4>API MATRIX VAULT (OPTIONAL)</h4>
+                    <input type="password" id="key-gemini" class="modal-input" placeholder="Google Gemini Key">
+                    <input type="password" id="key-chatgpt" class="modal-input" placeholder="OpenAI ChatGPT Key (sk-...)">
+                    <input type="password" id="key-deepseek" class="modal-input" placeholder="DeepSeek Key (sk-...)">
+                    <input type="password" id="key-claude" class="modal-input" placeholder="Anthropic Claude Key (sk-ant-...)">
+                    <input type="password" id="key-groq" class="modal-input" placeholder="Groq Token (gsk_...)">
+                    <input type="password" id="key-openrouter" class="modal-input" placeholder="OpenRouter Token (sk-or-...)">
+                    <button class="save-keys-btn" onclick="commitApiKeys()">Link Active Keys Matrix</button>
+                </div>
+
+                <div class="settings-section">
+                    <h4>RGB CHAT DISPLAY TUNING</h4>
+                    <div class="color-picker-wrapper">
+                        <canvas id="rgb-canvas" width="120" height="120" onclick="sampleWheelColor(event)"></canvas>
+                        <div class="color-picker-controls">
+                            <div class="toggle-target">
+                                <button id="target-user-btn" class="target-btn active" onclick="setColorTarget('user')">User</button>
+                                <button id="target-ai-btn" class="target-btn" onclick="setColorTarget('ai')">AI</button>
+                            </div>
+                            <p class="hex-display">HEX: <span id="current-hex-val">#FF3333</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="master-logout-btn" onclick="executeLogout()">Disconnect System Session (Log Out)</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script></body></html>
